@@ -1,7 +1,9 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 import Schedule from './views/schedule';
-import './app.less';
+
+import 'normalize.css';
+import './app.scss';
 
 function App() {
     return (
