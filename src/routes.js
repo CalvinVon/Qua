@@ -44,14 +44,14 @@ export default [
     {
         name: '答案之书',
         path: '/main/book-of-answer',
-        desc: '自动查询飞机票、火车票等',
+        desc: 'The Book of Answers. 什么都是略懂略懂~',
         component: Schedule,
         inDev: true
     },
     {
         name: '定时休息',
         path: '/main/rest-timer',
-        desc: '自动查询飞机票、火车票等',
+        desc: '关爱秋呀的工作作息，要时常休息呀',
         component: Schedule,
         inDev: true
     },
