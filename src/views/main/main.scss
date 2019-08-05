@@ -1,0 +1,54 @@
+.main {
+	display: flex;
+    flex-flow: row nowrap;
+    height: 100%;
+	&-side {
+		flex: none;
+		width: 200px;
+		padding-top: 20px;
+		background: linear-gradient(aliceblue, white);
+		overflow-x: hidden;
+		overflow-y: auto;
+
+		ul {
+			height: 100%;
+			li {
+				width: 100%;
+				transition: all 0.3s ease-in-out;
+
+				a {
+					display: flex;
+					align-items: center;
+					// justify-content: center;
+					height: 60px;
+
+					font-size: 16px;
+					color: rgb(102, 101, 101);
+					font-size: 18px;
+					font-weight: 300;
+					text-decoration: none;
+					letter-spacing: 1px;
+					span {
+						position: relative;
+						left: 40px;
+					}
+				}
+
+				&.active {
+					padding-left: 20px;
+					a {
+						background: linear-gradient(90deg, #ffc107 0%, #ffeb3b 100%);
+						border-top-left-radius: 15px;
+						border-bottom-left-radius: 15px;
+						color: black;
+						font-weight: bold;
+						span {
+							position: relative;
+							left: 30px;
+						}
+					}
+				}
+			}
+		}
+	}
+}

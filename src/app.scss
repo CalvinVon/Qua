@@ -1,31 +1,4 @@
 .app {
-  height: 100vh;
-  display: flex;
-  flex-flow: row nowrap;
-
-  &-side {
-    flex: none;
-    min-width: 200px;
-    width: 20%;
-    background: aliceblue;
-    overflow-y: auto;
-
-    ul {
-      height: 100%;
-      li {
-        width: 100%;
-
-        a {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          height: 100px;
-          text-decoration: none;
-          &:hover {
-            background: darken($color: aliceblue, $amount: 20%);
-          }
-        }
-      }
-    }
-  }
+	height: 100vh;
+	font-family: "Microsoft Yahei";
 }

@@ -1,34 +1,24 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
-import Schedule from './views/schedule';
+import { BrowserRouter as Router, Route } from 'react-router-dom'
+import Menu from './views/main/menu';
+import Main from './views/main/main';
 
 import 'normalize.css';
+import 'minireset.css';
 import './app.scss';
 
-function App() {
-    return (
-        <Router>
-            <div className="app">
-                <div className="app-side">
-                    <ul>
-                        <li className="app-side-item">
-                            <Link to="/schedule">课程表</Link>
-                        </li>
-                        <li className="app-side-item">
-                            <Link to="/reminder">提醒列表</Link>
-                        </li>
-                        <li className="app-side-item">
-                            <Link to="/transfer">文件传输</Link>
-                        </li>
-                    </ul>
-                </div>
+class App extends React.Component {
 
-                <div className="app-content">
-                    <Route path="/schedule" component={Schedule} />
+    render() {
+        return (
+            <Router>
+                <div className="app">
+                    <Route path="/" exact component={Menu} />
+                    <Route path="/main" component={Main} />
                 </div>
-            </div>
-        </Router>
-    );
+            </Router>
+        );
+    }
 }
 
 export default App;
