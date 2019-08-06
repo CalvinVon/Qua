@@ -14,6 +14,7 @@ export default class Menu extends React.Component {
                     <h3 className="menu-header">Qua 啾呀</h3>
                 </Affix>
                 <Sortable className="menu-list"
+                    items={routes}
                     onChange={(items) => {
                         console.log(items)
                     }}>

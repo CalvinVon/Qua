@@ -95,10 +95,8 @@
 			}
 
 			&--dev {
-				&,
-				h3 {
-					color: lighten($color: black, $amount: 60%);
-				}
+				// color: lighten($color: black, $amount: 60%);
+				opacity: 0.4;
 			}
 		}
 	}

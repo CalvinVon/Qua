@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom'
+import { MemoryRouter as Router, Route } from 'react-router-dom'
 import Menu from './views/main/menu';
 import Main from './views/main/main';
 

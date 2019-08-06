@@ -62,9 +62,7 @@
 						&.in-dev {
 							a {
 								cursor: not-allowed;
-								span {
-									color: rgb(202, 202, 202);
-								}
+								opacity: 0.2;
 							}
 						}
 

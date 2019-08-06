@@ -1,5 +1,6 @@
 // 引入electron并创建一个Browserwindow
 const { app, BrowserWindow, Menu } = require('electron');
+const isDev = require('electron-is-dev');
 const path = require('path');
 const url = require('url');
 
@@ -8,29 +9,31 @@ let mainWindow;
 
 function createWindow() {
     //创建浏览器窗口,宽高自定义具体大小你开心就好
-    mainWindow = new BrowserWindow({ width: 1000, height: 600 });
+    mainWindow = new BrowserWindow({
+        width: 1000,
+        height: 600,
+        // frame: false,
+        // titleBarStyle: 'hidden'
+        webPreferences: {
+            nodeIntegration: true
+        }
+    });
 
-    /* 
-     * 加载应用-----  electron-quick-start中默认的加载入口
-      mainWindow.loadURL(url.format({
-        pathname: path.join(__dirname, 'index.html'),
-        protocol: 'file:',
-        slashes: true
-      }))
-    */
     // 加载应用
-    mainWindow.loadURL('http://localhost:3000/');
+    if (isDev) {
+        mainWindow.loadURL('http://localhost:3000/');
+        mainWindow.webContents.openDevTools();
+    }
+    else {
+        mainWindow.loadURL(url.format({
+            pathname: path.join(__dirname, './build/index.html'),
+            protocol: 'file:',
+            slashes: true
+        }));
+        mainWindow.webContents.openDevTools();
+    }
+
     Menu.setApplicationMenu(null);
-
-    // 打包应用
-    // mainWindow.loadURL(url.format({
-    //     pathname: path.join(__dirname, './build/index.html'),
-    //     protocol: 'file:',
-    //     slashes: true
-    // }));
-
-    // 打开开发者工具，默认不打开
-    // mainWindow.webContents.openDevTools();
 
     // 关闭window时触发下列事件.
     mainWindow.on('closed', function () {
