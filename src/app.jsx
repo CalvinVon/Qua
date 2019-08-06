@@ -1,6 +1,7 @@
 import React from 'react';
+import { Provider } from 'react-keep-alive';
 import { MemoryRouter as Router, Route } from 'react-router-dom'
-import Menu from './views/main/menu';
+import Menu from './views/menu/menu';
 import Main from './views/main/main';
 
 import 'normalize.css';
@@ -13,10 +14,12 @@ class App extends React.Component {
     render() {
         return (
             <Router>
-                <div className="app">
-                    <Route path="/" exact component={Menu} />
-                    <Route path="/main" component={Main} />
-                </div>
+                <Provider include={/.+/}>
+                    <div className="app">
+                        <Route path="/" exact component={Menu} />
+                        <Route path="/main" component={Main} />
+                    </div>
+                </Provider>
             </Router>
         );
     }

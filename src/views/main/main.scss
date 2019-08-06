@@ -1,6 +1,16 @@
 .main {
 	position: relative;
 	height: 100%;
+	display: flex;
+	flex-flow: column nowrap;
+
+	&-header {
+		flex: none;
+	}
+
+	&-content {
+		flex: 1;
+	}
 }
 
 .main-nav-drawer {
@@ -10,20 +20,24 @@
 			flex-flow: column nowrap;
 			height: 100%;
 		}
+
 		&-header {
 			flex: none;
+
 			.ant-drawer-title {
 				text-align: center;
 				font-size: 20px;
 				padding: 10px 0;
 				font-weight: bold;
 				cursor: pointer;
+
 				i {
 					font-size: 16px;
 					margin-left: 8px;
 				}
 			}
 		}
+
 		&-body {
 			flex: 1;
 			padding: 0;
@@ -37,6 +51,7 @@
 			.main-nav {
 				ul {
 					height: 100%;
+
 					li {
 						width: 100%;
 
@@ -52,6 +67,7 @@
 							text-decoration: none;
 							letter-spacing: 1px;
 							user-select: none;
+
 							span {
 								border-radius: 10px;
 								padding: 0 10px;
@@ -75,11 +91,9 @@
 
 								text-align: center;
 								color: white;
-								background: linear-gradient(
-									90deg,
-									rgba(250, 29, 73, 1) 0%,
-									rgba(253, 100, 114, 1) 100%
-								);
+								background: linear-gradient(90deg,
+										rgba(250, 29, 73, 1) 0%,
+										rgba(253, 100, 114, 1) 100%);
 								box-shadow: 0px 4px 4px 0px rgba(251, 30, 74, 0.15);
 							}
 						}

@@ -2,10 +2,14 @@ import React from 'react';
 import { Affix } from 'antd';
 import Sortable from 'react-sortablejs';
 
-import routes from '../../routes';
+import RouteHelper from '../../utils/route.helper';
 import './menu.scss';
 
 export default class Menu extends React.Component {
+
+    state = {
+        menuItems: RouteHelper.getRouteMetas()
+    }
 
     render() {
         return (
@@ -14,12 +18,9 @@ export default class Menu extends React.Component {
                     <h3 className="menu-header">Qua 啾呀</h3>
                 </Affix>
                 <Sortable className="menu-list"
-                    items={routes}
-                    onChange={(items) => {
-                        console.log(items)
-                    }}>
+                    onChange={this.handleReorder.bind(this)}>
                     {
-                        routes.map(route => this.renderRouteItem(route))
+                        this.state.menuItems.map(route => this.renderRouteItem(route))
                     }
                 </Sortable>
             </div>
@@ -31,6 +32,7 @@ export default class Menu extends React.Component {
         return (
             <div className={`menu-list-item route-item ${isDev ? 'route-item--dev' : ''}`}
                 key={route.path}
+                data-id={route.path}
                 onClick={this.handleRouteClick.bind(this, route)}>
                 <h3>{route.name}</h3>
                 <p>{route.desc}</p>
@@ -47,5 +49,13 @@ export default class Menu extends React.Component {
         if (route.inDev) return;
         const { history } = this.props;
         history.push(route.path);
+    }
+
+    handleReorder(idList) {
+        const menuItems = idList.map(id => this.state.menuItems.find(it => it.path === id));
+        RouteHelper.setRouteMetas(menuItems);
+        this.setState({
+            menuItems: RouteHelper.getRouteMetas()
+        })
     }
 }

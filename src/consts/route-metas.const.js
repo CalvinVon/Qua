@@ -1,6 +1,7 @@
-import Schedule from './views/schedule';
+import Schedule from '../views/schedule';
+import EasyPs from '../modules/easy-ps';
 
-export default [
+const routeMetas = [
     {
         name: '📅 课程表',
         path: '/main/schedule',
@@ -26,8 +27,8 @@ export default [
         name: '🎴 快速P图',
         path: '/main/easy-ps',
         desc: '快速地对图片进行基本处理，PPT伴侣！',
-        component: Schedule,
-        inDev: true
+        component: EasyPs,
+        inDev: false
     },
     {
         name: '🚛 文件传输',
@@ -71,8 +72,6 @@ export default [
         component: Schedule,
         inDev: true
     },
-].sort((prev, next) => {
-    if (prev.inDev) return 1;
-    if (next.inDev) return -1;
-    return 0;
-});
+];
+
+export default routeMetas;

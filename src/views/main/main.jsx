@@ -1,9 +1,10 @@
 import React from 'react';
 import { Route, Link } from 'react-router-dom';
+import { KeepAlive } from 'react-keep-alive';
 import { Drawer, Icon, PageHeader } from 'antd';
 import classNames from 'classnames';
 
-import routes from '../../routes';
+import RouteHelper from '../../utils/route.helper';
 import './main.scss';
 
 let activeIndex;
@@ -11,7 +12,7 @@ let activeIndex;
 class Main extends React.Component {
 
     state = {
-        nav: routes.map(route => {
+        nav: RouteHelper.getRouteMetas().map(route => {
             return {
                 ...route,
                 active: false
@@ -20,7 +21,10 @@ class Main extends React.Component {
         menuVisible: false
     }
     componentWillMount() {
-        this.handleActive(0);
+        const { pathname } = this.props.location;
+        const { nav } = this.state;
+
+        this.handleActive(nav.findIndex(it => it.path === pathname));
     }
 
     render() {
@@ -56,7 +60,7 @@ class Main extends React.Component {
                                     key={it.name}>
                                     {
                                         it.inDev ?
-                                            <a>
+                                            <a href="javascript:;">
                                                 <span>{it.name}</span>
                                             </a>
                                             :
@@ -75,7 +79,15 @@ class Main extends React.Component {
 
     renderRouterOutlet() {
         return this.state.nav.map(it => (
-            <Route path={it.path} key={it.path} component={it.component} />
+            <Route path={it.path} key={it.path} render={() => {
+                const TagName = RouteHelper.getRouteComponent(it.path);
+                return (
+                    <KeepAlive name={it.path}>
+                        <TagName />
+                    </KeepAlive>
+                )
+            }} />
+
         ));
     }
 
