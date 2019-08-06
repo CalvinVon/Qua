@@ -5,6 +5,7 @@ import Main from './views/main/main';
 
 import 'normalize.css';
 import 'minireset.css';
+import 'antd/dist/antd.css';
 import './app.scss';
 
 class App extends React.Component {

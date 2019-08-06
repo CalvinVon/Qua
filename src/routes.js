@@ -5,13 +5,15 @@ export default [
         name: '课程表',
         path: '/main/schedule',
         desc: '记录每天的课程以及一些备忘笔记',
-        component: Schedule
+        component: Schedule,
+        inDev: true
     },
     {
         name: '提醒列表',
         path: '/main/reminder',
         desc: '共享提醒我们的重要事项',
-        component: Schedule
+        component: Schedule,
+        inDev: true
     },
     {
         name: '集成搜索',
@@ -49,6 +51,13 @@ export default [
         inDev: true
     },
     {
+        name: '做决定',
+        path: '/main/decider',
+        desc: '让我来帮你这个纠结症一把吧！',
+        component: Schedule,
+        inDev: false
+    },
+    {
         name: '定时休息',
         path: '/main/rest-timer',
         desc: '关爱秋呀的工作作息，要时常休息呀',
@@ -62,4 +71,8 @@ export default [
         component: Schedule,
         inDev: true
     },
-];
+].sort((prev, next) => {
+    if (prev.inDev) return 1;
+    if (next.inDev) return -1;
+    return 0;
+});
