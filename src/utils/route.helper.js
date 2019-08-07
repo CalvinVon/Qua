@@ -1,15 +1,16 @@
 import { withRouter } from 'react-router-dom';
 import orignalRouteMetas from '../consts/route-metas.const';
+import utils from '../utils/common.utils';
 const STORAGE_ROUTE = '__route__';
 const Engine = localStorage;
 let cache;
 
 function reorder(items) {
-    return items.sort((prev, next) => {
+    return utils.deduplication(items.sort((prev, next) => {
         if (prev.inDev) return 1;
         if (next.inDev) return -1;
         return 0;
-    });
+    }), 'path');
 }
 
 export default {

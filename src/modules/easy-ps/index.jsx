@@ -85,7 +85,7 @@ export default class EasyPs extends React.Component {
                         onChange={({ target: { value } }) => this.setState({ fileName: value })}
                         placeholder="重命名生成的文件"
                         suffix={
-                            <Tooltip title="不需要输入后缀名">
+                            <Tooltip title="不需要输入文件扩展名">
                                 <Icon type="info-circle" style={{ color: 'rgba(0,0,0,.45)' }} />
                             </Tooltip>
                         }

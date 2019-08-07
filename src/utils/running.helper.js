@@ -4,13 +4,13 @@ import RouteHelper from './route.helper';
 let widgetList = [];
 let subscriptionId = 0;
 let subscriptions = [];
-const RUNNING_SIGN = '__RUNNING__';
 
 const RunningHelper = {
     add(context) {
         // NOTE: 该组件必须有 路由参数传入，现已由 RouteHelper 返回 withRouter 的 HOC 组件
         const route = RouteHelper.getRouteMetaByPath(context.props.location.pathname);
         const widget = new Widget(route, context).notifyRun();
+
         widgetList.filter(it => it.id !== widget.id);
         widgetList.push(widget);
 
@@ -19,14 +19,17 @@ const RunningHelper = {
     stop(widgetOrId) {
         let widget;
         if (widgetOrId instanceof Widget) {
-            widget = widgetOrId.stop();
+            widget = widgetOrId.notifyStop();
         }
         else {
             widget = RunningHelper.getWidget(widgetOrId);
-            if (widget) widget.stop();
+            if (widget) widget.notifyStop();
         }
 
-        widgetList = widgetList.filter(it => it !== widget);
+        if (widget) {
+            widgetList = widgetList.filter(it => it !== widget);
+            notifyListeners(widget, widgetList);
+        }
     },
     getWidget(id) {
         return widgetList.find(widget => widget.id === id);
@@ -34,9 +37,9 @@ const RunningHelper = {
 
     isRunning(widgetOrId) {
         if (widgetOrId instanceof Widget) {
-            return Boolean(widgetOrId[RUNNING_SIGN]);
+            return Boolean(widgetOrId.running);
         }
-        return Boolean((RunningHelper.getWidget(widgetOrId) || {})[RUNNING_SIGN]);
+        return Boolean((RunningHelper.getWidget(widgetOrId) || {}).running);
     },
 
     subscribe(listener) {
@@ -53,29 +56,32 @@ const RunningHelper = {
 };
 
 function notifyListeners(...args) {
-    subscriptions.forEach(sub => sub(...args));
+    subscriptions.forEach(sub => sub.listener(...args));
 }
 
 class Widget {
-    constructor(route, component) {
+    constructor(route, instance) {
         this.id = route.path;
         this.route = route;
-        this.component = component;
-        this.dom = ReactDOM.findDOMNode(component);
+        this.instance = instance;
+        this.running = false;
+        this.dom = ReactDOM.findDOMNode(instance);
     }
 
     // 通知 RunningHelper 开始运行（组件已经 mounted）
     notifyRun() {
-        this.route[RUNNING_SIGN] = true;
+        this.running = true;
         return this;
     }
 
-    stop() {
-        if (this.dom) {
-            ReactDOM.unmountComponentAtNode(this.dom);
-        }
+    notifyStop() {
+        // if (this.dom) {
+        //     ReactDOM.unmountComponentAtNode(this.dom);
+        // }
+        this.running = false;
         return this;
     }
 }
 
+console.log(ReactDOM)
 export default RunningHelper;

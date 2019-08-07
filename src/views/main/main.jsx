@@ -4,28 +4,43 @@ import { KeepAlive } from 'react-keep-alive';
 import { Drawer, Icon, PageHeader, Badge } from 'antd';
 import classNames from 'classnames';
 
+import utils from '../../utils/common.utils';
 import RouteHelper from '../../utils/route.helper';
 import RunningHelper from '../../utils/running.helper';
+import { keepAliveCacheContext } from '../../utils/keep-alive.context';
 import './main.scss';
 
-let activeIndex;
+const menuItems = RouteHelper.getRouteMetas();
+let runningSubscription;
 
 class Main extends React.Component {
 
+    static contextType = keepAliveCacheContext;
+
     state = {
-        nav: RouteHelper.getRouteMetas().map(route => {
-            return {
-                ...route,
-                active: false
-            };
-        }),
+        nav: menuItems,
+        runningList: menuItems.map(it => RunningHelper.isRunning(it.path)),
+        activeIndex: -1,
         menuVisible: false
     }
+
     componentWillMount() {
         const { pathname } = this.props.location;
         const { nav } = this.state;
 
         this.handleActive(nav.findIndex(it => it.path === pathname));
+    }
+
+    componentDidMount() {
+        runningSubscription = RunningHelper.subscribe(() => {
+            this.setState({
+                runningList: this.state.nav.map(it => RunningHelper.isRunning(it.path))
+            });
+        })
+    }
+
+    componentWillUnmount() {
+        runningSubscription.unsubscribe();
     }
 
     render() {
@@ -43,6 +58,7 @@ class Main extends React.Component {
     }
 
     renderNavDrawer() {
+        const { nav, activeIndex, runningList } = this.state;
         return (
             <Drawer
                 className="main-nav-drawer"
@@ -55,8 +71,8 @@ class Main extends React.Component {
                 <div className="main-nav">
                     <ul>
                         {
-                            this.state.nav.map((it, idx) => (
-                                <li className={classNames('main-nav-item', { 'active': it.active, 'in-dev': it.inDev })}
+                            nav.map((it, idx) => (
+                                <li className={classNames('main-nav-item', { 'active': activeIndex === idx, 'in-dev': it.inDev })}
                                     onClick={this.handleActive.bind(this, idx)}
                                     key={it.name}>
                                     {
@@ -70,7 +86,7 @@ class Main extends React.Component {
                                                     {it.name}
                                                 </span>
                                                 {
-                                                    RunningHelper.isRunning(it.path) ?
+                                                    runningList[idx] ?
                                                         (<Badge status="processing" />) :
                                                         null
                                                 }
@@ -90,7 +106,9 @@ class Main extends React.Component {
             <Route path={it.path} key={it.path} render={() => {
                 const TagName = RouteHelper.getRouteComponent(it.path);
                 return (
-                    <KeepAlive name={it.path}>
+                    <KeepAlive name={it.path}
+                        // 3. Assign the corresponding <KeepAlive> component
+                        disabled={this.context.controlDisableds[it.path]}>
                         <TagName />
                     </KeepAlive>
                 )
@@ -100,31 +118,15 @@ class Main extends React.Component {
     }
 
     get activeNav() {
-        return this.state.nav[activeIndex];
+        return this.state.nav[this.state.activeIndex];
     }
 
     handleActive(index) {
         if (this.state.nav[index].inDev) return;
 
-        activeIndex = index;
-
-        const { nav } = this.state;
-        nav.forEach((it, idx) => {
-            if (idx === index) {
-                it.active = true;
-                it.running = true;
-            }
-            else {
-                it.active = false;
-            }
-        });
-
-        const menuItems = [...nav];
         this.setState({
-            nav: menuItems
+            activeIndex: index
         });
-
-        RouteHelper.setRouteMetas(menuItems);
     }
 
     showDrawer = () => {

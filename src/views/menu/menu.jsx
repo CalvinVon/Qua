@@ -4,14 +4,30 @@ import Sortable from 'react-sortablejs';
 
 import RouteHelper from '../../utils/route.helper';
 import RunningHelper from '../../utils/running.helper';
+import { keepAliveCacheContext } from '../../utils/keep-alive.context';
 import './menu.scss';
 
+const menuItems = RouteHelper.getRouteMetas();
+let runningSubscription;
 export default class Menu extends React.Component {
 
-    runningSubscription;
+    static contextType = keepAliveCacheContext;
 
     state = {
-        menuItems: RouteHelper.getRouteMetas()
+        menuItems: menuItems,
+        runningList: menuItems.map(it => RunningHelper.isRunning(it.path)),
+    }
+
+    componentDidMount() {
+        runningSubscription = RunningHelper.subscribe(() => {
+            this.setState({
+                runningList: this.state.menuItems.map(it => RunningHelper.isRunning(it.path))
+            });
+        })
+    }
+
+    componentWillUnmount() {
+        runningSubscription.unsubscribe();
     }
 
     render() {
@@ -23,14 +39,14 @@ export default class Menu extends React.Component {
                 <Sortable className="menu-list"
                     onChange={this.handleReorder.bind(this)}>
                     {
-                        this.state.menuItems.map(route => this.renderRouteItem(route))
+                        this.state.menuItems.map((route, routeIndex) => this.renderRouteItem(route, routeIndex))
                     }
                 </Sortable>
             </div>
         );
     }
 
-    renderRouteItem(route) {
+    renderRouteItem(route, routeIndex) {
         const isDev = route.inDev;
         return (
             <div className={`menu-list-item route-item ${isDev ? 'route-item--dev' : ''}`}
@@ -47,7 +63,7 @@ export default class Menu extends React.Component {
                 }
 
                 {
-                    RunningHelper.isRunning(route) ?
+                    this.state.runningList[routeIndex] ?
                         (
                             <Popconfirm
                                 title="停止实例运行？"
@@ -66,44 +82,28 @@ export default class Menu extends React.Component {
         );
     }
 
-    componentDidMount() {
-        this.runningSubscription = RunningHelper.subscribe((widget) => {
-            const route = widget.route;
-            const menuItems = [...this.state.menuItems, route];
-            RouteHelper.setRouteMetas(menuItems);
-            this.setState({
-                menuItems
-            });
-        })
-    }
-
-    componentWillUnmount() {
-        this.runningSubscription.unsubscribe();
-    }
-
     handleRouteClick(route) {
         if (route.inDev) return;
-        
+
+        // 只有在运行的 widget，才不设置 disable keep-alive cache
+        if (RunningHelper.isRunning(route.path)) {
+            this.context.setControlDisabled(route.path, false);
+        }
         const { history } = this.props;
         history.push(route.path);
     }
 
     handleStopRunning(route) {
-        route.running = false;
-        const menuItems = [...this.state.menuItems];
-
-        // unmount component
-
-        this.setState({
-            menuItems
-        });
+        RunningHelper.stop(route.path);
+        this.context.setControlDisabled(route.path, true);
     }
 
     handleReorder(idList) {
         const menuItems = idList.map(id => this.state.menuItems.find(it => it.path === id));
         RouteHelper.setRouteMetas(menuItems);
         this.setState({
-            menuItems: RouteHelper.getRouteMetas()
+            menuItems: RouteHelper.getRouteMetas(),
+            runningList: menuItems.map(it => RunningHelper.isRunning(it.path)),
         })
     }
 }
