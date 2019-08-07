@@ -68,10 +68,14 @@
 							letter-spacing: 1px;
 							user-select: none;
 
-							span {
+							span.nav-text {
 								border-radius: 10px;
 								padding: 0 10px;
 								transition: all 0.2s ease;
+							}
+							.ant-badge {
+								position: absolute;
+								left: 20px;
 							}
 						}
 
@@ -83,7 +87,8 @@
 						}
 
 						&.active {
-							a span {
+							position: relative;
+							a span.nav-text {
 								padding: 0 40px;
 								height: 40px;
 								line-height: 40px;
@@ -91,9 +96,11 @@
 
 								text-align: center;
 								color: white;
-								background: linear-gradient(90deg,
-										rgba(250, 29, 73, 1) 0%,
-										rgba(253, 100, 114, 1) 100%);
+								background: linear-gradient(
+									90deg,
+									rgba(250, 29, 73, 1) 0%,
+									rgba(253, 100, 114, 1) 100%
+								);
 								box-shadow: 0px 4px 4px 0px rgba(251, 30, 74, 0.15);
 							}
 						}

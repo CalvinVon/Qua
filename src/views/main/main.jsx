@@ -1,10 +1,11 @@
 import React from 'react';
 import { Route, Link } from 'react-router-dom';
 import { KeepAlive } from 'react-keep-alive';
-import { Drawer, Icon, PageHeader } from 'antd';
+import { Drawer, Icon, PageHeader, Badge } from 'antd';
 import classNames from 'classnames';
 
 import RouteHelper from '../../utils/route.helper';
+import RunningHelper from '../../utils/running.helper';
 import './main.scss';
 
 let activeIndex;
@@ -61,11 +62,18 @@ class Main extends React.Component {
                                     {
                                         it.inDev ?
                                             <a href="javascript:;">
-                                                <span>{it.name}</span>
+                                                <span className="nav-text">{it.name}</span>
                                             </a>
                                             :
                                             <Link to={it.path} key={it.name}>
-                                                <span>{it.name}</span>
+                                                <span className="nav-text">
+                                                    {it.name}
+                                                </span>
+                                                {
+                                                    RunningHelper.isRunning(it.path) ?
+                                                        (<Badge status="processing" />) :
+                                                        null
+                                                }
                                             </Link>
                                     }
                                 </li>
@@ -104,15 +112,19 @@ class Main extends React.Component {
         nav.forEach((it, idx) => {
             if (idx === index) {
                 it.active = true;
+                it.running = true;
             }
             else {
                 it.active = false;
             }
         });
 
+        const menuItems = [...nav];
         this.setState({
-            nav: [...nav]
+            nav: menuItems
         });
+
+        RouteHelper.setRouteMetas(menuItems);
     }
 
     showDrawer = () => {

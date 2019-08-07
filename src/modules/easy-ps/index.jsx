@@ -4,6 +4,7 @@ import ImageEditor from '@toast-ui/react-image-editor';
 import 'tui-image-editor/dist/tui-image-editor.css';
 import './index.scss';
 import LocaleZh from './locale-zh.json';
+import RunningHelper from '../../utils/running.helper';
 
 const imageEditorOptions = {
     includeUI: {
@@ -52,6 +53,7 @@ const imageEditorOptions = {
 };
 
 export default class EasyPs extends React.Component {
+    
     editorRef = React.createRef();
     downloadBtnRef = React.createRef();
 
@@ -62,6 +64,7 @@ export default class EasyPs extends React.Component {
     }
 
     componentDidMount() {
+        RunningHelper.add(this);
         const button = this.downloadBtnRef.current;
         document.querySelector('.tui-image-editor-header-buttons').appendChild(button);
     }

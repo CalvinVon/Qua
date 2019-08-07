@@ -1,3 +1,4 @@
+import { withRouter } from 'react-router-dom';
 import orignalRouteMetas from '../consts/route-metas.const';
 const STORAGE_ROUTE = '__route__';
 const Engine = localStorage;
@@ -27,13 +28,20 @@ export default {
         return cache;
     },
 
+    getRouteMetaByPath(path) {
+        const [route] = orignalRouteMetas.filter(it => it.path === path);
+        return route;
+    },
+
     setRouteMetas(routeMetas) {
         cache = reorder(routeMetas);
         Engine.setItem(STORAGE_ROUTE, JSON.stringify(cache));
     },
     
+
+    // 返回 route path 映射的 component 类
     getRouteComponent(path) {
-        const [route = {}] = orignalRouteMetas.filter(it => it.path === path);
-        return route.component;
+        const component = (this.getRouteMetaByPath(path) || {}).component;
+        return withRouter(component);
     }
 }
