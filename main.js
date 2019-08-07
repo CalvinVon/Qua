@@ -31,9 +31,9 @@ function createWindow() {
             slashes: true
         }));
         mainWindow.webContents.openDevTools();
+        Menu.setApplicationMenu(null);
     }
 
-    Menu.setApplicationMenu(null);
 
     // 关闭window时触发下列事件.
     mainWindow.on('closed', function () {

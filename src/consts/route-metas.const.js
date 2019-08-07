@@ -72,6 +72,13 @@ const routeMetas = [
         component: Schedule,
         inDev: true
     },
+    {
+        name: '📰 新闻头条',
+        path: '/main/news',
+        desc: '集成百度、头条、微博热搜等每日新闻',
+        component: Schedule,
+        inDev: true
+    },
 ];
 
 export default routeMetas;
