@@ -1,25 +1,58 @@
 {
     "name": "qua",
-    "version": "0.1.0",
+    "version": "0.0.1",
+    "author": "CalvinVon",
     "private": true,
     "main": "main.js",
     "homepage": ".",
+    "scripts": {
+        "start": "react-scripts start",
+        "start:electron": "electron .",
+        "build": "react-scripts build",
+        "build:electron": "electron-builder",
+        "test": "react-scripts test",
+        "eject": "react-scripts eject"
+    },
     "build": {
-        "appId": "com.calvin-von.qua",
-        "files": [
-            "**"
-        ],
+        "appId": "com.electron.qua",
         "directories": {
-            "buildResources": "."
+            "buildResources": "resources",
+            "output": "release"
+        },
+        "files": [
+            "**/*",
+            "./icon.*"
+        ],
+        "productName": "Qua",
+        "copyright": "Copyright © 2019 ${author}",
+        "mac": {
+            "target": [
+                "dmg",
+                "zip"
+            ],
+            "icon": "icon.ico"
+        },
+        "win": {
+            "target": [
+                "nsis",
+                "zip"
+            ],
+            "icon": "icon.ico"
         }
+    },
+    "publish": {
+        "provider": "github",
+        "owner": "CalvinVon",
+        "repo": "qua",
+        "private": true
     },
     "dependencies": {
         "@toast-ui/react-image-editor": "^1.0.1",
         "antd": "^3.20.7",
         "canvas-compress": "^1.1.5",
         "classnames": "^2.2.6",
-        "electron": "^5.0.8",
         "electron-is-dev": "^1.1.0",
+        "fabric": "^3.3.2",
         "jquery": "^3.4.1",
         "minireset.css": "0.0.5",
         "moment": "^2.24.0",
@@ -33,12 +66,12 @@
         "sortablejs": "^1.10.0-rc3",
         "tui-image-editor": "^3.7.0"
     },
-    "scripts": {
-        "start": "react-scripts start",
-        "start:electron": "electron .",
-        "build": "react-scripts build",
-        "test": "react-scripts test",
-        "eject": "react-scripts eject"
+    "devDependencies": {
+        "electron": "^5.0.8",
+        "babel-plugin-import": "^1.12.0",
+        "electron-builder": "^21.2.0",
+        "node-sass": "^4.12.0",
+        "sass-loader": "^7.1.0"
     },
     "eslintConfig": {
         "extends": "react-app"
@@ -54,10 +87,5 @@
             "last 1 firefox version",
             "last 1 safari version"
         ]
-    },
-    "devDependencies": {
-        "babel-plugin-import": "^1.12.0",
-        "node-sass": "^4.12.0",
-        "sass-loader": "^7.1.0"
     }
 }
