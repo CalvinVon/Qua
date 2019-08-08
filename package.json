@@ -16,6 +16,7 @@
     "dependencies": {
         "@toast-ui/react-image-editor": "^1.0.1",
         "antd": "^3.20.7",
+        "canvas-compress": "^1.1.5",
         "classnames": "^2.2.6",
         "electron": "^5.0.8",
         "electron-is-dev": "^1.1.0",

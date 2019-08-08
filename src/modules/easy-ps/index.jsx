@@ -1,6 +1,7 @@
 import React from 'react';
 import { Popover, Slider, Input, Tooltip, Icon, Switch } from 'antd';
 import ImageEditor from '@toast-ui/react-image-editor';
+import CanvasCompress from 'canvas-compress';
 import 'tui-image-editor/dist/tui-image-editor.css';
 import './index.scss';
 import LocaleZh from './locale-zh.json';
@@ -53,7 +54,7 @@ const imageEditorOptions = {
 };
 
 export default class EasyPs extends React.Component {
-    
+
     editorRef = React.createRef();
     downloadBtnRef = React.createRef();
 
@@ -61,6 +62,7 @@ export default class EasyPs extends React.Component {
         quality: 100,
         fileName: '',
         keepAlpha: true,
+        compressing: false
     }
 
     componentDidMount() {
@@ -72,11 +74,24 @@ export default class EasyPs extends React.Component {
     render() {
         const content = (
             <div className="download-setting">
+                <div className="option option-keep-alpha">
+                    <Tooltip title="启用时将保存为PNG格式" placement="bottomLeft">
+                        <span className="option-title">
+                            保持背景透明
+                            <Icon type="question-circle" style={{ color: 'rgba(0,0,0,.45)', marginLeft: '6px' }} />
+                        </span>
+                    </Tooltip>
+                    <Switch checked={this.state.keepAlpha}
+                        onChange={keepAlpha => this.setState({ keepAlpha })} />
+                </div>
+
+
                 <div className="option option-quality">
                     <div className="option-title">{'图片质量 ' + this.state.quality + '%'}</div>
                     <Slider value={this.state.quality}
                         onChange={quality => this.setState({ quality })} />
                 </div>
+
 
                 <div className="option option-rename">
                     <Input
@@ -85,22 +100,17 @@ export default class EasyPs extends React.Component {
                         onChange={({ target: { value } }) => this.setState({ fileName: value })}
                         placeholder="重命名生成的文件"
                         suffix={
-                            <Tooltip title="不需要输入文件扩展名">
-                                <Icon type="info-circle" style={{ color: 'rgba(0,0,0,.45)' }} />
+                            <Tooltip title="不需要输入文件扩展名" placement="bottomRight">
+                                <Icon type="question-circle" style={{ color: 'rgba(0,0,0,.45)' }} />
                             </Tooltip>
                         }
                     />
                 </div>
 
-                <div className="option option-keep-alpha">
-                    <span className="option-title">保持背景透明</span>
-                    <Switch checked={this.state.keepAlpha}
-                        onChange={keepAlpha => this.setState({ keepAlpha })} />
-                </div>
             </div>
         );
         return (
-            <div className="easy-ps">
+            <div className="easy-ps" >
                 <ImageEditor
                     ref={this.editorRef}
                     {...imageEditorOptions}
@@ -112,7 +122,15 @@ export default class EasyPs extends React.Component {
                     placement="bottomRight">
                     <button className="custom-download-btn"
                         ref={this.downloadBtnRef}
-                        onClick={this.handleDownload.bind(this)}>下载</button>
+                        onClick={this.handleDownload.bind(this)}>
+                        {
+                            this.state.compressing ?
+                                <span><Icon type="loading" style={{ marginRight: '6px' }} />压缩中</span>
+                                :
+                                <span>下载</span>
+                        }
+
+                    </button>
                 </Popover>
 
             </div>
@@ -130,18 +148,40 @@ export default class EasyPs extends React.Component {
     }
 
     handleDownload() {
-        const canvas = this.editorRef.current.getRootElement().querySelector('canvas');
+        if (this.state.compressing) return;
+        this.setState({ compressing: true });
 
-        canvas.toBlob(
-            blob => {
-                console.log(blob)
-                const a = document.createElement('a');
-                a.download = this.state.fileName;
-                a.href = URL.createObjectURL(blob);
-                a.click();
-            },
-            this.state.keepAlpha ? 'image/png' : 'image/jpeg',
-            this.state.quality / 100
-        );
+        const canvas = this.editorRef.current.getRootElement().querySelector('canvas');
+        const quality = this.state.quality / 100;
+
+        setTimeout(() => {
+            canvas.toBlob(
+                blob => {
+                    if (this.state.keepAlpha) {
+                        const { width, height } = canvas;
+                        new CanvasCompress({
+                            type: CanvasCompress.MIME.PNG,
+                            width: width * quality,
+                            height: height * quality,
+                        }).process(blob).then(({ result }) => {
+                            this.setState({ compressing: false });
+                            const a = document.createElement('a');
+                            a.download = this.state.fileName;
+                            a.href = URL.createObjectURL(result.blob);
+                            a.click();
+                        })
+                    }
+                    else {
+                        const a = document.createElement('a');
+                        a.download = this.state.fileName;
+                        a.href = URL.createObjectURL(blob);
+                        a.click();
+                        this.setState({ compressing: false });
+                    }
+                },
+                this.state.keepAlpha ? 'image/png' : 'image/jpeg',
+                quality
+            );
+        })
     }
 }
