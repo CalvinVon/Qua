@@ -1,0 +1,162 @@
+.decider {
+	position: relative;
+	overflow: hidden;
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	height: 100%;
+	font-family: "微软雅黑";
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	background: #d9e0e7;
+
+	header {
+		position: fixed;
+		top: 0;
+		left: 0;
+		height: 48px;
+		width: 100%;
+		background: #fff;
+		font-size: 20px;
+		font-weight: 600;
+		line-height: 48px;
+		letter-spacing: 1px;
+		padding-left: 15px;
+	}
+
+	a {
+		text-decoration: none;
+		color: #333;
+	}
+
+	#martix {
+		width: 375px;
+		text-align: center;
+		z-index: 999;
+		height: 300px;
+		margin-top: -140px;
+	}
+
+	#title {
+		margin: 35px 0;
+		height: 30px;
+		font-size: 30px;
+		text-align: center;
+		line-height: 30px;
+		color: #242a30;
+	}
+
+	#unicorn {
+		color: #ff9733;
+		font-weight: 700;
+		font-size: 30px;
+		background: #d9e0e7;
+	}
+
+	#pick {
+		width: 120px;
+		height: 40px;
+		vertical-align: middle;
+		cursor: pointer;
+		background: #00acac;
+		color: #fff;
+		border-radius: 40px;
+		border: none;
+		outline: none;
+	}
+
+	.telegram {
+		position: absolute;
+		z-index: 1;
+		color: #24292e;
+	}
+
+	.hide {
+		display: none;
+	}
+
+	.drink {
+		margin: 5px 0;
+		color: rgba(0, 0, 0, 0.5);
+		background-color: #fed4e5;
+		border-color: #fed4e5;
+		box-shadow: 0 0 0 2px rgba(254, 212, 229, 0.5);
+		padding: 2px 0;
+		font-size: 14px;
+	}
+
+	#drink {
+		width: 100px;
+		height: 28px;
+		line-height: 28px;
+		cursor: pointer;
+		background: #dc3545;
+		color: #fff;
+		border-radius: 50px;
+		border: none;
+		outline: none;
+		position: absolute;
+		bottom: 5px;
+		left: 26px;
+		font-size: 14px;
+		z-index: 999;
+		text-align: center;
+		letter-spacing: 1px;
+	}
+
+	#book {
+		font-family: "微软雅黑";
+	}
+
+	#diy {
+		width: 100px;
+		margin: 10px auto 0 auto;
+		color: #00acac;
+		font-size: 12px;
+	}
+
+	#submit {
+		width: 120px;
+		height: 30px;
+		vertical-align: middle;
+		cursor: pointer;
+		background: rgb(0, 123, 255);
+		color: #fff;
+		border-radius: 40px;
+		border: none;
+		outline: none;
+	}
+
+	#popover {
+		position: absolute;
+		bottom: 45px;
+		border: 1px solid rgba(0, 0, 0, 0.2);
+		border-radius: 8px;
+		background: #fff;
+	}
+
+	.popover-body {
+		padding: 12px;
+	}
+
+	.arrow {
+		position: absolute;
+		width: 0;
+		height: 0;
+		border-width: 8px 16px;
+		margin: 0 auto;
+		border-style: solid;
+		border-color: #fff transparent transparent transparent;
+		left: 60px;
+	}
+
+	#eq {
+		position: relative;
+		overflow: hidden;
+		width: 152px;
+		height: 220px;
+		margin: 0 auto;
+	}
+}

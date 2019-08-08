@@ -1,5 +1,6 @@
 import Schedule from '../views/schedule';
 import EasyPs from '../modules/easy-ps';
+import Decider from '../modules/decider';
 
 const routeMetas = [
     {
@@ -55,7 +56,7 @@ const routeMetas = [
         name: '🕹️ 做决定',
         path: '/main/decider',
         desc: '让我来帮你这个纠结症一把吧！',
-        component: Schedule,
+        component: Decider,
         inDev: false
     },
     {
