@@ -26,11 +26,10 @@ function createWindow() {
     }
     else {
         mainWindow.loadURL(url.format({
-            pathname: path.join(__dirname, './build/index.html'),
+            pathname: path.resolve(__dirname, '../build/index.html'),
             protocol: 'file:',
             slashes: true
         }));
-        mainWindow.webContents.openDevTools();
         Menu.setApplicationMenu(null);
     }
 

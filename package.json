@@ -20,24 +20,23 @@
             "output": "release"
         },
         "files": [
-            "**/*",
-            "./icon.*"
+            "build/*",
+            "./qua.png"
         ],
         "productName": "Qua",
         "copyright": "Copyright © 2019 ${author}",
         "mac": {
             "target": [
-                "dmg",
                 "zip"
             ],
-            "icon": "icon.ico"
+            "icon": "qua.png"
         },
         "win": {
             "target": [
                 "nsis",
                 "zip"
             ],
-            "icon": "icon.ico"
+            "icon": "qua.png"
         }
     },
     "publish": {
