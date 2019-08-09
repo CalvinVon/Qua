@@ -2,8 +2,9 @@
     "name": "qua",
     "version": "0.0.1",
     "author": "CalvinVon",
+    "description": "An efficiency-oriented little thing designed for Qiuqiu.",
     "private": true,
-    "main": "main.js",
+    "main": "./public/electron.js",
     "homepage": ".",
     "scripts": {
         "start": "react-scripts start",
@@ -21,7 +22,7 @@
         },
         "files": [
             "build/*",
-            "./qua.png"
+            "resources/qua.ico"
         ],
         "productName": "Qua",
         "copyright": "Copyright © 2019 ${author}",
@@ -29,14 +30,12 @@
             "target": [
                 "zip"
             ],
-            "icon": "qua.png"
+            "artifactName": "${productName}_setup_${version}.${ext}",
+            "icon": "resources/qua.ico"
         },
         "win": {
-            "target": [
-                "nsis",
-                "zip"
-            ],
-            "icon": "qua.png"
+            "artifactName": "${productName}_setup_${version}.${ext}",
+            "icon": "resources/qua.ico"
         }
     },
     "publish": {
@@ -51,7 +50,6 @@
         "canvas-compress": "^1.1.5",
         "classnames": "^2.2.6",
         "electron-is-dev": "^1.1.0",
-        "fabric": "^3.3.2",
         "jquery": "^3.4.1",
         "minireset.css": "0.0.5",
         "moment": "^2.24.0",
