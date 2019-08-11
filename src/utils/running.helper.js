@@ -83,5 +83,4 @@ class Widget {
     }
 }
 
-console.log(ReactDOM)
 export default RunningHelper;

@@ -1,6 +1,7 @@
 import Schedule from '../views/schedule';
 import EasyPs from '../modules/easy-ps';
 import Decider from '../modules/decider';
+import News from '../modules/news';
 
 const routeMetas = [
     {
@@ -77,8 +78,8 @@ const routeMetas = [
         name: '📰 新闻头条',
         path: '/main/news',
         desc: '集成百度、头条、微博热搜等每日新闻',
-        component: Schedule,
-        inDev: true
+        component: News,
+        inDev: false
     },
 ];
 

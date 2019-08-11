@@ -1,0 +1,96 @@
+.main-content {
+    overflow: hidden;
+}
+
+.news {
+    display: flex;
+    height: 100%;
+
+    .ant-tabs {
+        flex: 1;
+        min-width: 400px;
+        height: 100%;
+
+        &-bar {
+            margin-bottom: 0;
+        }
+
+        &-extra-content {
+            margin-right: 8px;
+        }
+
+        &-content {
+            position: relative;
+            height: 100%;
+            top: -2px;
+        }
+
+        &-tabpane {
+            overflow-y: auto;
+        }
+    }
+
+    &-preview {
+        flex: auto;
+
+        &-header {
+            .ant-page-header {
+                margin: 0;
+                padding: 8px;
+            }
+            border-bottom: 1px solid #d0d0d0;
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+        }
+    }
+
+    .news-item {
+        display: flex;
+
+        .news-index {
+            flex: none;
+            margin-right: 8px;
+        }
+
+        .news-name {
+            flex: 1;
+            vertical-align: middle;
+            color: #333;
+            cursor: pointer;
+
+            &-icon {
+                display: inline;
+                margin-left: 8px;
+            }
+
+            img {
+                width: 18px;
+                height: 18px;
+                vertical-align: middle;
+                margin-left: 4px;
+            }
+        }
+
+        .news-count {
+            flex: none;
+
+            .ant-statistic-content {
+                font-size: 14px;
+                color: #757575;
+            }
+        }
+
+        &.isRoof {
+            .news-index {
+                .anticon {
+                    font-size: 20px;
+                    width: 23px;
+                    margin-right: 8px;
+                }
+            }
+        }
+    }
+}
