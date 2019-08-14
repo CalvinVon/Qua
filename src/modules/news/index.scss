@@ -30,6 +30,22 @@
         }
     }
 
+    &-panel {
+        height: 100%;
+        .ant-list,
+        .ant-spin-nested-loading,
+        .ant-spin-container,
+        .ant-list-empty-text {
+            height: 100%;
+        }
+
+        .ant-list-empty-text {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    }
+
     &-preview {
         flex: auto;
 

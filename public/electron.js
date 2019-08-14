@@ -12,10 +12,13 @@ function createWindow() {
     mainWindow = new BrowserWindow({
         width: 1000,
         height: 600,
-        // frame: false,
+        frame: true,
         // titleBarStyle: 'hidden'
         webPreferences: {
-            nodeIntegration: true
+            nodeIntegration: true,
+            webSecurity: false,
+            allowRunningInsecureContent: true,
+            webviewTag: true
         }
     });
 
@@ -33,6 +36,18 @@ function createWindow() {
         Menu.setApplicationMenu(null);
     }
 
+
+    mainWindow.webContents.on('new-window', (event, url, frameName, disposition, options) => {
+        event.preventDefault()
+        const win = new BrowserWindow({
+            show: false,
+            width: 1200,
+            height: 800
+        })
+        win.once('ready-to-show', () => win.show())
+        win.loadURL(url) // existing webContents will be navigated automatically
+        // event.newGuest = win
+    })
 
     // 关闭window时触发下列事件.
     mainWindow.on('closed', function () {
