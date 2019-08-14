@@ -2,6 +2,7 @@ import Schedule from '../views/schedule';
 import EasyPs from '../modules/easy-ps';
 import Decider from '../modules/decider';
 import News from '../modules/news';
+import Piano from '../modules/piano';
 
 const routeMetas = [
     {
@@ -79,6 +80,13 @@ const routeMetas = [
         path: '/main/news',
         desc: '集成百度、头条、微博热搜等每日新闻',
         component: News,
+        inDev: false
+    },
+    {
+        name: '🎹 弹首歌吧',
+        path: '/main/piano',
+        desc: '人生如音乐，欢快且自由~',
+        component: Piano,
         inDev: false
     },
 ];
