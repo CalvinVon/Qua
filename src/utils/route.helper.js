@@ -1,9 +1,10 @@
 import { withRouter } from 'react-router-dom';
 import orignalRouteMetas from '../consts/route-metas.const';
 import utils from '../utils/common.utils';
-const STORAGE_ROUTE = '__route__';
-const Engine = localStorage;
-let cache;
+import StorageManager from './storage.manager';
+
+const storage = new StorageManager('route', StorageManager.StorageEngine.default);
+storage.checkVersionAndReplace(orignalRouteMetas);
 
 function reorder(items) {
     return utils.deduplication(items.sort((prev, next) => {
@@ -15,18 +16,9 @@ function reorder(items) {
 
 export default {
     getRouteMetas(refresh) {
-        if (cache) return cache;
-
-        // 强制重新从 consts 获取
-        if (!refresh) {
-            const fromStorage = JSON.parse(Engine.getItem(STORAGE_ROUTE) || null);
-            if (fromStorage) {
-                return cache = reorder(fromStorage);
-            }
-        }
-
-        this.setRouteMetas(orignalRouteMetas);
-        return cache;
+        const value = storage.get(refresh);
+        this.setRouteMetas(value);
+        return value;
     },
 
     getRouteMetaByPath(path) {
@@ -35,8 +27,8 @@ export default {
     },
 
     setRouteMetas(routeMetas) {
-        cache = reorder(routeMetas);
-        Engine.setItem(STORAGE_ROUTE, JSON.stringify(cache));
+        const value = reorder(routeMetas);
+        storage.set(value);
     },
     
 
