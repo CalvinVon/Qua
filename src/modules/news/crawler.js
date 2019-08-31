@@ -118,7 +118,7 @@ async function getHao123News() {
                     isRising: !!$(row).has('.point-state-rise').length,
                     isDeclining: !!$(row).has('.point-state-fall').length,
                 }
-            })
+            }).toArray()
         }
     }
 

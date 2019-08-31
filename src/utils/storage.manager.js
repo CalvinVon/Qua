@@ -49,7 +49,6 @@ export default class StorageManager {
         return getRealValue.call(this);
 
         function getRealValue() {
-            console.log(this)
             const raw = this.storageEngine.getItem(this.key);
             return this._cache = JSON.parse(raw);
         }

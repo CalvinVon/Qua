@@ -24,6 +24,7 @@ export default class News extends React.Component {
         RunningHelper.add(this);
 
         this.getBaiduNews();
+        this.getHao123News();
     }
 
     render() {
@@ -38,7 +39,14 @@ export default class News extends React.Component {
                     <TabPane tab="微博热搜" key="2">
                         <Panel newsList={weiboNews} loading={loading} onItemClick={this.handleItemClick.bind(this)} />
                     </TabPane>
-                    <TabPane tab="Tab 3" key="3"></TabPane>
+                    
+                    {
+                        hao123News.map((item, index) => (
+                            <TabPane tab={item.cate} key={index + 3}>
+                                <Panel newsList={item.list} onItemClick={this.handleItemClick.bind(this)} />
+                            </TabPane>
+                        ))
+                    }
                 </Tabs>
 
 
@@ -68,7 +76,7 @@ export default class News extends React.Component {
         this.setState({
             loading: true
         });
-        await requests[this.state.activeIndex - 1].call(this);
+        await (requests[this.state.activeIndex - 1] || this.getHao123News).call(this);
 
         this.setState({
             loading: false
@@ -87,7 +95,7 @@ export default class News extends React.Component {
             loading: true
         });
 
-        await requests[index - 1].call(this);
+        await (requests[index - 1] || this.getHao123News).call(this);
 
         this.setState({
             loading: false

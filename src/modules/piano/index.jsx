@@ -8,7 +8,7 @@ export default class Piano extends React.Component {
     iframe = React.createRef();
 
     state = {
-        link: "http//www.autopiano.cn"
+        link: "http://www.autopiano.cn"
     }
 
     componentDidMount() {
