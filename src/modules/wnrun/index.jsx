@@ -38,6 +38,7 @@ export default class WnRun extends React.Component {
                             value={value}
                             onChange={this.handleValueChange.bind(this)}
                             onPressEnter={this.handleEnter.bind(this)}
+                            allowClear
                             placeholder="输入网址或者关键词搜索" />
 
                         <Button className="input-btn" onClick={this.handleBtnClick.bind(this)}>

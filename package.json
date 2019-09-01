@@ -22,7 +22,7 @@
         },
         "files": [
             "build/*",
-            "resources/qua.ico"
+            "resources/qua.png"
         ],
         "productName": "Qua",
         "copyright": "Copyright © 2019 ${author}",
@@ -30,20 +30,14 @@
             "target": [
                 "zip"
             ],
-            "icon": "resources/qua.ico"
+            "icon": "resources/qua.png"
         },
         "win": {
             "target": [
                 "zip"
             ],
-            "icon": "resources/qua.ico"
+            "icon": "resources/qua.png"
         }
-    },
-    "publish": {
-        "provider": "github",
-        "owner": "CalvinVon",
-        "repo": "qua",
-        "private": true
     },
     "dependencies": {
         "@toast-ui/react-image-editor": "^1.0.1",
