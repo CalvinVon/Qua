@@ -3,6 +3,7 @@ import EasyPs from '../modules/easy-ps';
 import Decider from '../modules/decider';
 import News from '../modules/news';
 import Piano from '../modules/piano';
+import WnRun from '../modules/wnrun';
 
 const routeMetas = [
     {
@@ -89,6 +90,13 @@ const routeMetas = [
         component: Piano,
         inDev: false
     },
+    {
+        name: '🧰 万能工具',
+        path: '/main/wnrun',
+        desc: '下载VIP视频、音乐、文库文档，快速网页翻译，购物查看历史价格等等',
+        component: WnRun,
+        inDev: false
+    }
 ];
 
 export default routeMetas;

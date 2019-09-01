@@ -1,5 +1,5 @@
 import React from 'react';
-import { Tabs, Button, PageHeader } from 'antd';
+import { Tabs, Button, PageHeader, Breadcrumb } from 'antd';
 import RunningHelper from '../../utils/running.helper';
 import Panel from './panel';
 import './index.scss';
@@ -8,6 +8,8 @@ const TabPane = Tabs.TabPane;
 const Crawler = require('./crawler');
 
 export default class News extends React.Component {
+
+    webView;
 
     state = {
         // started from 1
@@ -39,7 +41,7 @@ export default class News extends React.Component {
                     <TabPane tab="微博热搜" key="2">
                         <Panel newsList={weiboNews} loading={loading} onItemClick={this.handleItemClick.bind(this)} />
                     </TabPane>
-                    
+
                     {
                         hao123News.map((item, index) => (
                             <TabPane tab={item.cate} key={index + 3}>
@@ -54,9 +56,14 @@ export default class News extends React.Component {
                     this.state.selected ?
                         <div className="news-preview">
                             <div className="news-preview-header">
-                                <PageHeader onBack={this.handleItemClick.bind(this, null)} title={<span>📰 预览</span>} subTitle={this.state.selected.name} />
+                                <PageHeader onBack={this.handleItemClick.bind(this, null)}
+                                    title={<span>📰 预览</span>}
+                                    subTitle={this.state.selected.name} />
                             </div>
-                            <iframe src={this.state.selected.link} title={this.state.selected.name} frameBorder="0"></iframe>
+                            <webview ref={this.handleViewShow.bind(this)}
+                                src={this.state.selected.link}
+                                title={this.state.selected.name}
+                                nodeintegration="true"></webview>
                         </div>
                         :
                         null
@@ -103,8 +110,33 @@ export default class News extends React.Component {
     }
 
     handleItemClick(news) {
-        this.setState({
-            selected: news
+        const webview = this.webView;
+        if (!news) {
+            if (webview.canGoBack()) {
+                webview.goBack();
+            }
+            else {
+                this.setState({
+                    selected: news
+                });
+            }
+        }
+        else {
+            this.setState({
+                selected: news
+            });
+            webview && webview.clearHistory();
+        }
+    }
+
+    handleViewShow(webview) {
+        this.webView = webview;
+        webview && webview.addEventListener('dom-ready', () => {
+            const webContents = webview.getWebContents();
+            webContents.on('new-window', (event, url) => {
+                event.preventDefault();
+                webview.loadURL(url);
+            });
         });
     }
 

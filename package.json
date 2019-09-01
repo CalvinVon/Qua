@@ -1,6 +1,6 @@
 {
     "name": "qua",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "author": "CalvinVon",
     "description": "An efficiency-oriented little thing designed for Qiuqiu.",
     "private": true,
@@ -53,6 +53,7 @@
         "classnames": "^2.2.6",
         "compare-version": "^0.1.2",
         "electron-is-dev": "^1.1.0",
+        "is-url": "^1.2.4",
         "jquery": "^3.4.1",
         "minireset.css": "0.0.5",
         "moment": "^2.24.0",
