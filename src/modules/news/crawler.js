@@ -125,7 +125,13 @@ async function getHao123News() {
     return newsTableNode.map(getTopNews).toArray();
 }
 
-module.exports = {
+// module.exports = {
+//     getBaiduNews,
+//     getWeiboNews,
+//     getHao123News,
+// };
+
+export default {
     getBaiduNews,
     getWeiboNews,
     getHao123News,
