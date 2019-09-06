@@ -91,12 +91,19 @@ const routeMetas = [
         inDev: false
     },
     {
-        name: '🧰 万能工具',
+        name: '🔗 万能工具',
         path: '/main/wnrun',
         desc: '下载VIP视频、音乐、文库文档，快速网页翻译，购物查看历史价格等等',
         component: WnRun,
         inDev: false
-    }
+    },
+    {
+        name: '🎬 音视频编辑',
+        path: '/main/media-editor',
+        desc: '音视频裁剪、合并，格式转换，压缩水印等',
+        component: WnRun,
+        inDev: false
+    },
 ];
 
 export default routeMetas;

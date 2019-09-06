@@ -1,6 +1,6 @@
 {
     "name": "qua",
-    "version": "0.0.3",
+    "version": "0.0.4",
     "author": "CalvinVon",
     "description": "An efficiency-oriented little thing designed for Qiuqiu.",
     "private": true,
@@ -40,6 +40,7 @@
         }
     },
     "dependencies": {
+        "@ffmpeg-installer/ffmpeg": "^1.0.19",
         "@toast-ui/react-image-editor": "^1.0.1",
         "antd": "^3.20.7",
         "canvas-compress": "^1.1.5",
