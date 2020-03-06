@@ -4,7 +4,6 @@ import { KeepAlive } from 'react-keep-alive';
 import { Drawer, Icon, PageHeader, Badge } from 'antd';
 import classNames from 'classnames';
 
-import utils from '../../utils/common.utils';
 import RouteHelper from '../../utils/route.helper';
 import RunningHelper from '../../utils/running.helper';
 import { keepAliveCacheContext } from '../../utils/keep-alive.context';

@@ -1,0 +1,52 @@
+.excel-lottery.decider {
+    background-color: #FAFAFA;
+
+    #title {
+        margin-top: 0;
+        margin-bottom: 280px;
+    }
+
+    #pick {
+        margin: 16px 0 0;
+        background-color: rgba(250, 29, 73, 1);
+
+        &.ant-btn-primary[disabled] {
+            background: #E0E0E0;
+            cursor: no-drop;
+        }
+    }
+
+    #unicorn {
+        color: #ff9733;
+        font-weight: 700;
+        font-size: 30px;
+        background: #FAFAFA;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 1px 2px 10px #E0E0E0;
+    }
+
+    .imported-count {
+        cursor: pointer;
+    }
+
+
+    .import-btn {}
+
+    .config-btn {}
+}
+
+
+
+.imported-popover {
+    .ant-popover-content {
+        max-width: 80%;
+        margin: auto;
+
+        .imported-list {
+            max-height: 50vh;
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+    }
+}

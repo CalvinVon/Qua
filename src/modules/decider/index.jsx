@@ -80,7 +80,7 @@ export default class Decider extends React.Component {
                 run = 0
             }
             index++
-            if (index == 7) {
+            if (index === 7) {
                 warning('女人！ 我劝你善良！')
                 index = 0
             }
