@@ -3,7 +3,7 @@ const workBook = new Excel.Workbook();
 
 const { Student, Group } = require('./entity');
 
-module.exports = async function parser(filePath) {
+async function parser(filePath) {
     await workBook.xlsx.readFile(filePath);
     const workSheet = workBook.getWorksheet(1);
 
@@ -36,3 +36,5 @@ module.exports = async function parser(filePath) {
 
     return students;
 }
+
+export default parser;

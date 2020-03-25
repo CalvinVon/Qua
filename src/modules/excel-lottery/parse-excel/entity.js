@@ -34,7 +34,13 @@ class Group {
     }
 }
 
-module.exports = {
+// module.exports = {
+//     Student,
+//     Group,
+//     colors
+// }
+
+export {
     Student,
     Group,
     colors
