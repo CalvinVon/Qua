@@ -4,6 +4,7 @@ import Decider from '../modules/decider';
 import News from '../modules/news';
 import Piano from '../modules/piano';
 import WnRun from '../modules/wnrun';
+import ExcelLottery from '../modules/excel-lottery';
 
 const routeMetas = [
     {
@@ -12,6 +13,13 @@ const routeMetas = [
         desc: '记录每天的课程以及一些备忘笔记',
         component: Schedule,
         inDev: true
+    },
+    {
+        name: '🙋‍♂️ 中奖了',
+        path: '/main/excel-lottery',
+        desc: '不知道谁将会是幸运儿呢？🧐',
+        component: ExcelLottery,
+        inDev: false
     },
     {
         name: '🔔 提醒列表',
@@ -102,7 +110,7 @@ const routeMetas = [
         path: '/main/media-editor',
         desc: '音视频裁剪、合并，格式转换，压缩水印等',
         component: WnRun,
-        inDev: false
+        inDev: true
     },
 ];
 

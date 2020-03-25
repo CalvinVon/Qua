@@ -1,6 +1,6 @@
 import React from 'react';
 import Crawler from './crawler';
-import { Tabs, Button, PageHeader, Breadcrumb } from 'antd';
+import { Tabs, Button, PageHeader } from 'antd';
 import RunningHelper from '../../utils/running.helper';
 import Panel from './panel';
 import './index.scss';

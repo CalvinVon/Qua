@@ -55,6 +55,6 @@ export default class StorageManager {
     }
 
     clear() {
-        this.storageEngine.set(null);
+        this.set(null);
     }
 }
