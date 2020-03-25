@@ -17,7 +17,7 @@ const routeMetas = [
     {
         name: '🙋‍♂️ 中奖了',
         path: '/main/excel-lottery',
-        desc: 'Come on, who is that lucky dog?🧐',
+        desc: '不知道谁将会是幸运儿呢？🧐',
         component: ExcelLottery,
         inDev: false
     },
