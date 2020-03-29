@@ -117,7 +117,11 @@ class ExcelLottery extends React.Component {
                                             </p>)
                                         }
                                         content={this.renderStudentTable(list)}>
-                                        <span className="imported-count">已导入 {list.length} 个数据，将抽取 {maxSelect} 个幸运儿</span>
+                                        <div className="imported-count">
+                                            <span>已导入 {list.length} 个数据，将抽取 {maxSelect} 个幸运儿</span>
+                                            <Button className="reimport-btn" type="link" onClick={() => this.reImport()}>重新导入</Button>
+                                        </div>
+
                                     </Popover>
 
                                     <br />
@@ -167,7 +171,7 @@ class ExcelLottery extends React.Component {
                                 {getFieldDecorator('maxSelect')(<InputNumber max={list.length} min={1} />)}
                             </Form.Item>
 
-                            <Form.Item label="是否允许重复抽中" extra="开启后，将不会重复抽中同一人">
+                            <Form.Item label="是否允许重复抽中" extra="开启后，有可能性将多次抽中同一人">
                                 {getFieldDecorator('allowRepeat', { valuePropName: 'checked' })(<Switch checkedChildren="开" unCheckedChildren="关" />)}
                             </Form.Item>
 
@@ -201,7 +205,7 @@ class ExcelLottery extends React.Component {
                         <List.Item onClick={onClick.bind(null, item, data.length - index)}>
                             <List.Item.Meta
                                 avatar={<Avatar style={{ backgroundColor: item.color }}>{item.name.slice(item.name.length - 2)}</Avatar>}
-                                title={(showIndex ? `#${data.length - index} ` : '') + item.name}
+                                title={(showIndex ? `#${data.length - index} ` : ' ') + item.name}
                                 description={Student.toFullString(item)}
                             />
                         </List.Item>
@@ -214,7 +218,7 @@ class ExcelLottery extends React.Component {
 
     runLottery(shouldStop) {
         let unicorn = this.ref.current;
-        const { running, stopped, selectedList, list, config } = this.state;
+        const { running, stopped, list, config } = this.state;
         const { allowRepeat, maxSelect, automatic, autoInterval } = config;
 
         const stopLotteryTimer = () => {
@@ -275,7 +279,7 @@ class ExcelLottery extends React.Component {
                     let props = Math.ceil(Math.random() * lollipop.length),
                         propsTop = Math.ceil((Math.random() * (window.document.body.offsetHeight - 48)) + 48),
                         propsLeft = Math.ceil(Math.random() * (window.document.body.offsetWidth - 140)),
-                        propsSize = Math.ceil(Math.random() * (40 - 30) + 10),
+                        propsSize = Math.ceil(Math.random() * (50 - 40) + 10),
                         surge = this.selectedStudent = lollipop[props - 1],
                         telegram = document.createElement('div');
                     telegram.setAttribute('class', 'telegram');
@@ -287,8 +291,7 @@ class ExcelLottery extends React.Component {
                         opacity: ${Math.random()};
                         color: ${surge.color};
                         text-shadow: 0 0 5px ${surge.color};
-                        font-size: ${propsSize}px;
-                        filter: blur(${0}px)`;
+                        font-size: ${propsSize}px;`;
                     $('.decider').append(telegram);
                     // 动画
                     $('.telegram').fadeIn("slow", function () {

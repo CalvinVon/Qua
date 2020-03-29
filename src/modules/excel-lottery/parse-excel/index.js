@@ -1,36 +1,41 @@
 const Excel = window.require('exceljs');
 const workBook = new Excel.Workbook();
 
-const { Student, Group } = require('./entity');
+const { Student } = require('./entity');
+
+function getFirstWorkSheet(workBook) {
+    const length = workBook.worksheets.length;
+    let i = 0;
+    while (i < length) {
+        const sheet = workBook.worksheets[i];
+        if (sheet) {
+            return sheet;
+        }
+    }
+    return null;
+}
 
 async function parser(filePath) {
     await workBook.xlsx.readFile(filePath);
-    const workSheet = workBook.getWorksheet(1);
+    const workSheet = getFirstWorkSheet(workBook);
 
     workSheet.columns = [
-        { header: '学号', key: 'id' },
+        { header: '组别', key: 'group' },
         { header: '姓名', key: 'name' },
     ];
 
-    const idCol = workSheet.getColumn('id');
+    const groupCol = workSheet.getColumn('group');
     const nameCol = workSheet.getColumn('name');
 
     const students = [];
-    let lastGroup;
 
-    idCol.eachCell((cell, rowNumber) => {
+    nameCol.eachCell((cell, rowNumber) => {
         const value = '' + cell.value;
-        let matched;
-        if (matched = value.match(/^\s*(G(\d+))\s*$/)) {
-            const name = matched[1];
-            const number = Number(matched[2]);
-            const raw = value;
-            lastGroup = new Group(name, number, raw);
-        }
-        else if (matched = value.match(/^\s*(\d+)\s*$/)) {
-            const id = matched[1];
-            const name = nameCol.values[rowNumber];
-            students.push(new Student(id, name, lastGroup));
+
+        if (!value.match(/(组|姓名)/)) {
+            const group = groupCol.values[rowNumber];
+            const name = value;
+            students.push(new Student(name, group));
         }
     });
 
