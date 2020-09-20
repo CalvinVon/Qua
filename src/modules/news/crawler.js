@@ -1,3 +1,8 @@
+const isDev = process.env.DEBUG === "true";
+// if (isDev) {
+//     global.window = module;
+// }
+
 const request = window.require('util').promisify(window.require('request'));
 const cheerio = window.require('cheerio');
 
@@ -9,6 +14,7 @@ const CommonHeaders = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.131 Safari/537.36'
 }
 
+
 // 爬取百度热点
 async function getBaiduNews() {
     const DOMAIN = 'https://www.baidu.com';
@@ -19,7 +25,7 @@ async function getBaiduNews() {
         method: 'GET',
         headers: CommonHeaders,
         qs: {
-            'wd': 'vue-mount'
+            'wd': 'dalao-proxy'
         }
     });
 
@@ -29,11 +35,10 @@ async function getBaiduNews() {
         const a = $($(row).find('td').get(0)).find('a');
         const name = a.text();
         const link = DOMAIN + a.attr('href');
-        const count = $(row).find('.opr-toplist1-right').text();
+    
         return {
             name,
             link,
-            count,
             index: rowIndex + 1,
             isNew: !!$($(row).find('td').get(0)).has('.opr-toplist1-new').length,
             isRising: !!$($(row).find('td').get(1)).has('.c-icon-up').length,

@@ -1,4 +1,7 @@
-const Excel = window.require('exceljs');
+const isDev = process.env.DEBUG === "true";
+const _require = isDev ? require : window.require;
+
+const Excel = _require('exceljs');
 const workBook = new Excel.Workbook();
 
 const { Student } = require('./entity');
@@ -15,31 +18,90 @@ function getFirstWorkSheet(workBook) {
     return null;
 }
 
+/**
+ * 确保排除 表格头 等信息，拿到真实的第一列数据
+ */
+function getActualRowBegin(column) {
+    let i
+    for (i = 1; i <= column.values.length; i++) {
+        const value = column.values[i];
+        if (value.includes('表')) {
+            continue;
+        }
+        else {
+            break;
+        }
+    }
+    return i;
+}
+
+
+function sortColumns(workSheet) {
+    let rowBegin;
+    const keys = [
+        { label: '学号', value: 'id' },
+        { label: '姓名', value: 'name' },
+        { label: '组', value: 'group' },
+    ];
+    const includes = {};
+    const others = [];
+    const columnsCount = workSheet.actualColumnCount;
+
+    for (let index = 1; index <= columnsCount; index++) {
+        const column = workSheet.getColumn(index);
+        const header = column.values[rowBegin || (rowBegin = getActualRowBegin(column))] || '';
+
+        let matched;
+        for (let i = 0; i < keys.length; i++) {
+            const { label, value } = keys[i];
+            if (header.includes(label)) {
+                includes[value] = {
+                    header,
+                    column,
+                    values: column.values,
+                };
+                matched = true;
+            }
+        }
+
+
+        if (!matched) {
+            others.push({
+                header,
+                column,
+                values: column.values
+            });
+        }
+    }
+
+    return { includes, others };
+}
+
 async function parser(filePath) {
     await workBook.xlsx.readFile(filePath);
     const workSheet = getFirstWorkSheet(workBook);
 
-    workSheet.columns = [
-        { header: '组别', key: 'group' },
-        { header: '姓名', key: 'name' },
-    ];
+    const { includes, others } = sortColumns(workSheet);
 
-    const groupCol = workSheet.getColumn('group');
-    const nameCol = workSheet.getColumn('name');
-
+    const firstCol = workSheet.getColumn(1);
     const students = [];
 
-    nameCol.eachCell((cell, rowNumber) => {
-        const value = '' + cell.value;
-
-        if (!value.match(/(组|姓名)/)) {
-            const group = groupCol.values[rowNumber];
-            const name = value;
-            students.push(new Student(name, group));
+    firstCol.eachCell((cell, rowNumber) => {
+        const id = includes.id.values[rowNumber] || '';
+        
+        if (/^[\dA-Z]+$/i.test(id)) {
+            const name = includes.name.values[rowNumber];
+            const fields = others.filter(it => it.values[rowNumber]).map(it => ({ name: it.header || '缺省', value: it.values[rowNumber] || '' }));
+            students.push(new Student(id, name, fields));
         }
+
     });
 
     return students;
+}
+
+if (isDev) {
+    parser(process.env.EXCEL_SRC);
 }
 
 export default parser;

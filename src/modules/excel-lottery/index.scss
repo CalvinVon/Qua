@@ -21,36 +21,13 @@
 		.ant-list-items {
 			display: flex;
 			flex-flow: row wrap;
+			justify-content: center;
 		}
-		.ant-list-item {
-
-			margin: 4px 8px;
+		.ant-avatar {
+			margin: 4px;
 			padding: 0;
-			&-meta {
-				min-width: 180px;
-				text-align: left;
-				background: white;
-				padding: 10px;
-				border-radius: 8px;
-				box-shadow: 1px 5px 3px 0px #BDBDBD;
-				cursor: pointer;
-				transition: all 0.3s ease;
-
-				&-title {
-					color: #212121;
-					font-weight: bold;
-				}
-
-				&-description {
-					color: #616161;
-					font-size: 12px;
-				}
-
-				&:hover {
-					transform: scale3d(1.05, 1.05, 1);
-					box-shadow: 1px 1px 12px 3px #FAFAFA;
-				}
-			}
+			cursor: pointer;
+			user-select: none;
 		}
 	}
 
@@ -62,7 +39,7 @@
 
 			.imported-count {
 				position: relative;
-				top: -180px;
+				top: -250px;
 				font-size: 20px;
 				color: #424242;
 				font-weight: 200;
@@ -136,6 +113,17 @@
 
 	.imported-count {
 		cursor: pointer;
+
+		.imported-text {
+			margin-bottom: 0;
+			&:hover {
+				color: #1890ff;
+			}
+
+			.filename {
+				font-size: 14px;
+			}
+		}
 	}
 
 

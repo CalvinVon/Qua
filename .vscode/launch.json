@@ -22,7 +22,20 @@
             "type": "node",
             "request": "launch",
             "name": "Debug News Crawler",
-            "program": "${workspaceFolder}/src/modules/news/backend/crawler.js"
+            "program": "${workspaceFolder}/src/modules/news/crawler.js",
+            "env": {
+                "DEBUG": "true"
+            }
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Debug excel reading",
+            "program": "${workspaceFolder}/src/modules/excel-lottery/parse-excel/index.js",
+            "env": {
+                "DEBUG": "true",
+                "EXCEL_SRC": "/Users/fengjiahui/Desktop/705 外教分班.xlsx"
+            }
         }
     ]
 }

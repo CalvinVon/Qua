@@ -48,6 +48,7 @@ class ExcelLottery extends React.Component {
         btnColor: null,
         configModal: false,
 
+        fileName: '',
         // 文件导入的总共数据
         list: (this.storage.get() || []).map(Student.create),
         // 已选中的数据
@@ -80,16 +81,8 @@ class ExcelLottery extends React.Component {
                                 {
                                     maxSelect === 1
                                         ? null
-                                        : (
-                                            <div className="selected-list">
-                                                {this.renderStudentTable(selectedList, {
-                                                    showIndex: true,
-                                                    onClick: (item, index) => {
-                                                        this.ref.current.innerText = `#${index} ${item.name}`;
-                                                    }
-                                                })}
-                                            </div>
-                                        )
+                                        : this.renderSelectedList(selectedList)
+
                                 }
                             </React.Fragment>
                             : null
@@ -99,7 +92,7 @@ class ExcelLottery extends React.Component {
                         color: btnColor
                     }}>
                         <span ref={this.ref}>抽个奖吧</span>
-                        <Progress percent={selectedList.length / maxSelect * 100} status="active" />
+                        <Progress percent={+(selectedList.length / maxSelect * 100).toFixed(0)} status="active" />
                     </div>
 
 
@@ -118,7 +111,19 @@ class ExcelLottery extends React.Component {
                                         }
                                         content={this.renderStudentTable(list)}>
                                         <div className="imported-count">
-                                            <span>已导入 {list.length} 个数据，将抽取 {maxSelect} 个幸运儿</span>
+                                            <Tooltip title="点击查看全部人员">
+                                                <p className="imported-text">
+                                                    {
+                                                        this.state.fileName
+                                                            ? <>
+                                                                <span className="filename">{this.state.fileName}</span>
+                                                                <br />
+                                                            </>
+                                                            : null
+                                                    }
+                                                    <span>已导入 {list.length} 个数据，将抽取 {maxSelect} 个幸运儿</span>
+                                                </p>
+                                            </Tooltip>
                                             <Button className="reimport-btn" type="link" onClick={() => this.reImport()}>重新导入</Button>
                                         </div>
 
@@ -215,6 +220,26 @@ class ExcelLottery extends React.Component {
         );
     }
 
+    renderSelectedList(data) {
+        return (
+            <div className="selected-list">
+                <List
+                    itemLayout="horizontal"
+                    dataSource={data}
+                    renderItem={(item, index) => (
+                        <Tooltip title={Student.toFullString(item)}>
+                            <Avatar
+                                onClick={() => {
+                                    this.ref.current.innerText = `#${index} ${item.name}`;
+                                }}
+                                style={{ backgroundColor: item.color }}>{item.name.slice(item.name.length - 2)}</Avatar>
+                        </Tooltip>
+                    )}
+                />
+            </div>
+        );
+    }
+
 
     runLottery(shouldStop) {
         let unicorn = this.ref.current;
@@ -229,7 +254,7 @@ class ExcelLottery extends React.Component {
         // 选中！
         const selectLottery = (cb) => {
             const newState = {
-                selectedList: [this.selectedStudent, ...this.state.selectedList]
+                selectedList: [...this.state.selectedList, this.selectedStudent]
             };
 
             // 若不允许重复
@@ -348,11 +373,14 @@ class ExcelLottery extends React.Component {
         ipt.type = 'file';
         ipt.onchange = async e => {
             const file = e.target.files[0];
+
+            if (!file) return;
             const filePath = file.path;
 
             const student = await ExcelParser(filePath);
             this.setState({
-                list: student
+                list: student,
+                fileName: file.name
             });
 
             this.storage.set(student);
