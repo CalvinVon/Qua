@@ -11,8 +11,8 @@ ipcMain.on('isDev', event => event.returnValue = isDev);
 function createWindow() {
     //创建浏览器窗口,宽高自定义具体大小你开心就好
     mainWindow = new BrowserWindow({
-        width: 1000,
-        height: 600,
+        width: 1280,
+        height: 1080,
         frame: true,
         // titleBarStyle: 'hidden'
         webPreferences: {
@@ -42,8 +42,8 @@ function createWindow() {
         event.preventDefault()
         const win = new BrowserWindow({
             show: false,
-            width: 1200,
-            height: 800
+            width: 1280,
+            height: 1080
         })
         win.once('ready-to-show', () => win.show())
         win.loadURL(url) // existing webContents will be navigated automatically

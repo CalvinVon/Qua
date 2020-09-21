@@ -131,12 +131,8 @@ export default class News extends React.Component {
 
     handleViewShow(webview) {
         this.webView = webview;
-        webview && webview.addEventListener('dom-ready', () => {
-            const webContents = webview.getWebContents();
-            webContents.on('new-window', (event, url) => {
-                event.preventDefault();
-                webview.loadURL(url);
-            });
+        webview && webview.addEventListener('new-window', ({ url }) => {
+            webview.loadURL(url);
         });
     }
 

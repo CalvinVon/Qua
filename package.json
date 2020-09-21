@@ -40,7 +40,7 @@
         }
     },
     "dependencies": {
-        "@toast-ui/react-image-editor": "^1.0.1",
+        "@toast-ui/react-image-editor": "^1.2.0",
         "antd": "^3.20.7",
         "canvas-compress": "^1.1.5",
         "cheerio": "^1.0.0-rc.3",
@@ -57,16 +57,16 @@
         "react-dom": "^16.8.6",
         "react-keep-alive": "^2.1.0",
         "react-router-dom": "^5.0.1",
-        "react-scripts": "3.0.1",
+        "react-scripts": "^3.4.3",
         "react-sortablejs": "^1.5.1",
         "request": "^2.88.0",
         "sortablejs": "^1.10.0-rc3",
-        "tui-image-editor": "^3.7.0"
+        "tui-image-editor": "^3.10.0"
     },
     "devDependencies": {
         "babel-plugin-import": "^1.12.0",
-        "electron": "^5.0.8",
-        "electron-builder": "^21.2.0",
+        "electron": "^10.1.2",
+        "electron-builder": "^22.8.1",
         "electron-react-devtools": "^0.5.3",
         "node-sass": "^4.12.0",
         "sass-loader": "^7.1.0"

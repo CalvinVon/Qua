@@ -24,6 +24,12 @@
 			justify-content: center;
 		}
 		.ant-avatar {
+            $rate: 1.5;
+			width: 32px * $rate;
+            height: 32px * $rate;
+            line-height: 32px * $rate;
+            font-size: 12px * $rate;
+
 			margin: 4px;
 			padding: 0;
 			cursor: pointer;

@@ -98,12 +98,8 @@ export default class WnRun extends React.Component {
     // webview 内点击事件
     bindWebviewClick(webview) {
         if (webview) {
-            webview.addEventListener('dom-ready', () => {
-                const webContents = webview.getWebContents();
-                webContents.on('new-window', (event, url) => {
-                    event.preventDefault();
-                    window.open(url);
-                });
+            webview && webview.addEventListener('new-window', ({ url }) => {
+                webview.loadURL(url);
             });
         }
     }
