@@ -34,7 +34,7 @@
             "program": "${workspaceFolder}/src/modules/excel-lottery/parse-excel/index.js",
             "env": {
                 "DEBUG": "true",
-                "EXCEL_SRC": "/Users/fengjiahui/Desktop/705 外教分班.xlsx"
+                "EXCEL_SRC": "/Users/didi/Documents/dev-assets/files/708名单新（小组）.xlsx"
             }
         }
     ]

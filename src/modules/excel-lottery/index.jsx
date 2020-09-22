@@ -371,6 +371,7 @@ class ExcelLottery extends React.Component {
     importExcel() {
         let ipt = document.createElement('input');
         ipt.type = 'file';
+        ipt.accept = '.xlsx';
         ipt.onchange = async e => {
             const file = e.target.files[0];
 

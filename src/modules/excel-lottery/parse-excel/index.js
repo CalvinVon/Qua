@@ -21,11 +21,12 @@ function getFirstWorkSheet(workBook) {
 /**
  * 确保排除 表格头 等信息，拿到真实的第一列数据
  */
-function getActualRowBegin(column) {
-    let i
+function getActualRowBegin(workSheet) {
+    const column = workSheet.getColumn(1);
+    let i;
     for (i = 1; i <= column.values.length; i++) {
         const value = column.values[i];
-        if (value.includes('表')) {
+        if (!value || value.includes('表')) {
             continue;
         }
         else {
@@ -36,10 +37,9 @@ function getActualRowBegin(column) {
 }
 
 
-function sortColumns(workSheet) {
-    let rowBegin;
+function sortColumns(workSheet, rowBegin) {
     const keys = [
-        { label: '学号', value: 'id' },
+        // { label: '学号', value: 'id' },
         { label: '姓名', value: 'name' },
         { label: '组', value: 'group' },
     ];
@@ -49,7 +49,7 @@ function sortColumns(workSheet) {
 
     for (let index = 1; index <= columnsCount; index++) {
         const column = workSheet.getColumn(index);
-        const header = column.values[rowBegin || (rowBegin = getActualRowBegin(column))] || '';
+        const header = column.values[rowBegin] || '';
 
         let matched;
         for (let i = 0; i < keys.length; i++) {
@@ -80,21 +80,20 @@ function sortColumns(workSheet) {
 async function parser(filePath) {
     await workBook.xlsx.readFile(filePath);
     const workSheet = getFirstWorkSheet(workBook);
+    const realRowBegin = getActualRowBegin(workSheet);
+    const { includes, others } = sortColumns(workSheet, realRowBegin);
 
-    const { includes, others } = sortColumns(workSheet);
-
-    const firstCol = workSheet.getColumn(1);
+    const firstCol = workSheet.getColumn(realRowBegin);
     const students = [];
 
     firstCol.eachCell((cell, rowNumber) => {
-        const id = includes.id.values[rowNumber] || '';
-        
-        if (/^[\dA-Z]+$/i.test(id)) {
-            const name = includes.name.values[rowNumber];
-            const fields = others.filter(it => it.values[rowNumber]).map(it => ({ name: it.header || '缺省', value: it.values[rowNumber] || '' }));
-            students.push(new Student(id, name, fields));
-        }
+        if (rowNumber <= realRowBegin) return;
 
+        const name = includes.name.values[rowNumber];
+        if (name) {
+            const fields = others.filter(it => it.values[rowNumber]).map(it => ({ name: it.header || '缺省', value: it.values[rowNumber] || '' }));
+            students.push(new Student(name, fields));
+        }
     });
 
     return students;

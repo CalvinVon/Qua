@@ -20,14 +20,14 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
   <title>Qua - 啾呀</title>
-  <style>
+  <style type="text/css">
     .splash-page {
+      width: 100vw;
       height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
     }
-
     .splash-page img {
       width: 10%;
       position: absolute;
@@ -40,8 +40,7 @@
   <div id="root">
     <div class="splash-page">
       <img src="<%= require('../resources/qua.png') %>" alt="Qua">
-      <svg width="500" height="500" viewBox="0 0 44 44" xmlns="http://www.w3.org/2000/svg" stroke="#EEE" style="
-">
+      <svg width="500" height="500" viewBox="0 0 44 44" xmlns="http://www.w3.org/2000/svg" stroke="#EEEEEE">
         <g fill="none" fill-rule="evenodd" stroke-width="1">
           <circle cx="22" cy="22" r="1">
             <animate attributeName="r" begin="0s" dur="2.5s" values="1; 20" calcMode="spline" keyTimes="0; 1"
